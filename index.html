@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SCBM371 — paper presentations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Noto+Sans+Thai:wght@400;600&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --bg:#E9EDF2; --surface:#FFFFFF; --surface-2:#F4F6F9; --ink:#17202E; --ink-2:#4A5568; --ink-3:#6E7a8D;
+  --line:#D3DAE3; --accent:#2B4C9B; --accent-ink:#FFFFFF; --danger:#B4233F;
+  --s-waiting:#8A94A6; --s-submitted:#B87508; --s-revise:#C23A5A; --s-approved:#17876B; --s-presented:#6A4BC4;
+  --chip-bg-l:92%; --chip-fg-l:30%; --shadow:0 1px 0 rgba(23,32,46,.06), 0 2px 6px rgba(23,32,46,.06);
+  --font-ui:"Atkinson Hyperlegible","Noto Sans Thai",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-head:"Bricolage Grotesque","Noto Sans Thai",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme: light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12161D; --surface:#1B212B; --surface-2:#232B37; --ink:#E6EBF2; --ink-2:#B3BDCB; --ink-3:#8C97A8;
+    --line:#2F3947; --accent:#91A9F2; --accent-ink:#0F1522; --danger:#F07A92;
+    --s-waiting:#8E98AA; --s-submitted:#E4A93A; --s-revise:#EE7591; --s-approved:#4CC4A0; --s-presented:#A68DF0;
+    --chip-bg-l:24%; --chip-fg-l:82%; --shadow:0 1px 0 rgba(0,0,0,.3);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12161D; --surface:#1B212B; --surface-2:#232B37; --ink:#E6EBF2; --ink-2:#B3BDCB; --ink-3:#8C97A8;
+  --line:#2F3947; --accent:#91A9F2; --accent-ink:#0F1522; --danger:#F07A92;
+  --s-waiting:#8E98AA; --s-submitted:#E4A93A; --s-revise:#EE7591; --s-approved:#4CC4A0; --s-presented:#A68DF0;
+  --chip-bg-l:24%; --chip-fg-l:82%; --shadow:0 1px 0 rgba(0,0,0,.3);
+  color-scheme: dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--font-ui);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1400px;margin:0 auto;padding:20px 20px 60px}
+
+/* Header */
+header.top{display:grid;gap:14px;margin-bottom:18px}
+.titlerow{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 20px;justify-content:space-between}
+.course{font-family:var(--font-head);font-weight:700;font-size:clamp(1.6rem,3.2vw,2.4rem);line-height:1.1;letter-spacing:-.01em;margin:0;border:0;background:transparent;padding:2px 4px;margin-left:-4px;border-radius:6px;width:min(100%,32ch)}
+.course:hover{background:var(--surface-2)}
+.sub{color:var(--ink-2);margin:2px 0 0}
+.ribbon{display:flex;height:14px;border-radius:7px;overflow:hidden;background:var(--line)}
+.ribbon span{display:block;height:100%;transition:flex-grow .4s ease}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.92rem;color:var(--ink-2)}
+.legend b{color:var(--ink);font-weight:700;margin-right:4px}
+.dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:baseline}
+
+/* Toolbar */
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px}
+.search{flex:1 1 220px;min-width:0;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+select.f{padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;background:transparent;padding:8px 14px;cursor:pointer;color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.btn{border:1px solid var(--line);background:var(--surface);padding:8px 14px;border-radius:8px;cursor:pointer;white-space:nowrap}
+.btn:hover{border-color:var(--ink-3)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700}
+.btn.danger{color:var(--danger)}
+.btn.small{padding:5px 10px;font-size:.9rem}
+.spacer{flex:1}
+
+.notice{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--s-submitted);padding:10px 14px;border-radius:8px;margin-bottom:14px;color:var(--ink-2)}
+.notice[hidden]{display:none}
+
+/* Board */
+.board-scroll{overflow-x:auto;padding-bottom:8px}
+.board{display:grid;grid-template-columns:repeat(5,minmax(240px,1fr));gap:14px;min-width:1240px}
+.col{background:var(--surface-2);border-radius:12px;padding:10px;min-height:200px;border:2px solid transparent;transition:border-color .15s}
+.col.drop{border-color:var(--accent)}
+.col h2{font-family:var(--font-head);font-size:1rem;font-weight:700;margin:2px 4px 10px;display:flex;align-items:center;gap:8px}
+.col h2 .n{margin-left:auto;color:var(--ink-3);font-family:var(--font-ui);font-weight:400}
+.cards{display:grid;gap:10px}
+.card{position:relative;background:var(--surface);border-radius:10px;padding:12px 12px 12px 16px;box-shadow:var(--shadow);cursor:pointer;border:1px solid var(--line);text-align:left;width:100%}
+.card::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:4px;border-radius:0 4px 4px 0;background:var(--sc)}
+.card:hover{border-color:var(--ink-3)}
+.card .gname{font-family:var(--font-head);font-weight:700;font-size:1.05rem;line-height:1.2}
+.card .ptitle{margin:6px 0 8px;color:var(--ink-2);font-size:.93rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card .ptitle.none{color:var(--ink-3);font-style:italic}
+.card .meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:.85rem;color:var(--ink-3)}
+.chip{display:inline-block;padding:1px 8px;border-radius:999px;font-size:.82rem;background:hsl(var(--h) 55% var(--chip-bg-l));color:hsl(var(--h) 45% var(--chip-fg-l));max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle}
+.faces{display:flex}
+.face{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:.68rem;font-weight:700;background:hsl(var(--h) 50% var(--chip-bg-l));color:hsl(var(--h) 45% var(--chip-fg-l));border:2px solid var(--surface);margin-left:-6px}
+.face:first-child{margin-left:0}
+.flag{color:var(--s-revise);font-size:.82rem;margin-top:6px}
+.empty-col{color:var(--ink-3);font-size:.9rem;padding:10px 6px}
+
+/* Table */
+.table-scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:900px;font-size:.93rem}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:700;color:var(--ink-2);background:var(--surface-2);cursor:pointer;user-select:none;white-space:nowrap}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:var(--surface-2)}
+tbody tr:last-child td{border-bottom:0}
+.st{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.clip{max-width:34ch;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+
+/* Empty state */
+.empty{background:var(--surface);border:1px dashed var(--ink-3);border-radius:12px;padding:36px 24px;text-align:center}
+.empty h2{font-family:var(--font-head);margin:0 0 6px}
+.empty p{color:var(--ink-2);margin:0 auto 16px;max-width:52ch}
+
+/* Drawer */
+.scrim{position:fixed;inset:0;background:rgba(10,14,20,.45);z-index:20}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(640px,100%);background:var(--surface);z-index:21;overflow-y:auto;box-shadow:-8px 0 30px rgba(0,0,0,.18);padding:calc(env(safe-area-inset-top,0px) + 18px) 22px calc(env(safe-area-inset-bottom,0px) + 40px);animation:slide .22s ease}
+@keyframes slide{from{transform:translateX(30px);opacity:.4}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.drawer{animation:none}.ribbon span{transition:none}}
+.dhead{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px}
+.dhead input{flex:1;font-family:var(--font-head);font-weight:700;font-size:1.6rem;border:0;background:transparent;padding:2px 4px;margin-left:-4px;border-radius:6px;min-width:0}
+.dhead input:hover,.dhead input:focus{background:var(--surface-2)}
+.x{border:0;background:var(--surface-2);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1.2rem;flex:none}
+section.blk{border-top:1px solid var(--line);padding:16px 0}
+section.blk h3{font-family:var(--font-head);font-size:1.05rem;margin:0 0 10px}
+label.fl{display:block;font-size:.88rem;color:var(--ink-2);margin:10px 0 4px}
+.in,textarea.in{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface-2)}
+textarea.in{resize:vertical;min-height:110px;line-height:1.5}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+@media (max-width:520px){.grid2{grid-template-columns:1fr}}
+.statuspick{display:flex;flex-wrap:wrap;gap:6px}
+.statuspick button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-size:.92rem}
+.statuspick button[aria-pressed="true"]{border-color:var(--sc);background:var(--sc);color:var(--surface);font-weight:700}
+.statuspick button[aria-pressed="true"] .dot{background:var(--surface)!important}
+.member{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-bottom:8px;align-items:center}
+@media (max-width:520px){.member{grid-template-columns:1fr auto}.member .em{grid-column:1}}
+.rm{border:0;background:transparent;color:var(--ink-3);cursor:pointer;font-size:1.1rem;padding:4px 8px;border-radius:6px}
+.rm:hover{color:var(--danger);background:var(--surface-2)}
+.pdfbox{border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--surface-2);margin-top:12px}
+.pdfbox .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pdfname{font-weight:700;word-break:break-word}
+.pdfframe{width:100%;height:420px;border:1px solid var(--line);border-radius:8px;margin-top:10px;background:#fff}
+.hint{font-size:.85rem;color:var(--ink-3);margin:6px 0 0}
+.saved{font-size:.85rem;color:var(--ink-3);min-height:1.2em}
+
+/* Modal */
+.modal{position:fixed;inset:0;display:grid;place-items:center;z-index:30;padding:16px}
+.modal .box{background:var(--surface);border-radius:14px;width:min(760px,100%);max-height:90vh;overflow:auto;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal h2{font-family:var(--font-head);margin:0 0 6px}
+.modal p{color:var(--ink-2);margin:0 0 12px}
+.preview{font-size:.9rem;margin:12px 0;max-height:260px;overflow:auto;border:1px solid var(--line);border-radius:8px}
+.preview table{min-width:0}
+.actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:14px}
+code{background:var(--surface-2);padding:1px 5px;border-radius:4px;font-size:.9em}
+
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 20px);transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;z-index:40;max-width:90vw}
+[hidden]{display:none!important}
+
+.gcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;box-shadow:var(--shadow);margin-bottom:16px;border-left:5px solid var(--sc)}
+.gcard h2{font-family:var(--font-head);font-size:1.3rem;margin:0 0 4px;display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.gcard h2 .st{font-family:var(--font-ui);font-size:.85rem;font-weight:400;color:var(--ink-2)}
+.paper{margin:12px 0}
+.paper .t{font-weight:700}
+.paper .a{color:var(--ink-2);font-size:.93rem}
+.none{color:var(--ink-3);font-style:italic}
+.fb{background:var(--surface-2);border-left:4px solid var(--accent);border-radius:8px;padding:12px 16px;margin-top:14px;white-space:pre-wrap}
+.fb.nofb{border-left-color:var(--line);color:var(--ink-3);font-style:italic}
+.fb h3{font-family:var(--font-head);font-size:1rem;margin:0 0 6px;color:var(--accent)}
+.mem{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.mem span{background:var(--surface-2);border-radius:999px;padding:3px 10px;font-size:.88rem}
+.mem span i{color:var(--ink-3);font-style:normal;margin-left:5px;font-size:.82rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="titlerow"><div>
+      <h1 class="course" style="padding:0;margin:0">SCBM371 Generic Skills in Science Research</h1>
+      <p class="sub" id="subline"></p>
+    </div></div>
+    <div class="ribbon" id="ribbon" aria-hidden="true"></div>
+    <div class="legend" id="legend"></div>
+  </header>
+  <main id="main"></main>
+  <p class="hint" id="stamp" style="margin-top:28px"></p>
+</div>
+<script id="data" type="application/json">[{"name": "Group 1", "theme": "Biomedical interventions & therapeutics", "status": "submitted", "presentDate": "", "members": [{"id": "6705641", "name": "Arkar Maung"}, {"id": "6705643", "name": "Han Ko Ko Htet"}, {"id": "6705644", "name": "Hnin Wut Yee Phyo"}, {"id": "6705647", "name": "Jingwen Ma"}, {"id": "6705648", "name": "Khin Chan Myae Nyein"}, {"id": "6705541", "name": "Methasith Krisdapolpipat"}, {"id": "6705710", "name": "Naw Gloria Win"}, {"id": "6705723", "name": "Rachata Yuttarat"}, {"id": "6705653", "name": "Sandi Htun"}, {"id": "6705524", "name": "Tee Arpaskuldaet"}], "paper": {"title": "Administration of broadly neutralizing anti-HIV-1 antibodies at ART initiation maintains long-term CD8+ T cell immunity", "authors": "Miriam Rosás-Umbert, Jesper D. Gunst, Marie H. Pahus et al. (corresponding: Ole S. Søgaard)", "year": "Nature Communications, 2022", "link": "https://doi.org/10.1038/s41467-022-34171-2", "pdfId": "c806bc400f59c792f2cf51d8d1eb7a67", "pdfName": "s41467-022-34171-2.pdf"}, "feedback": ""}, {"name": "Group 2", "theme": "Biomedical interventions & therapeutics", "status": "submitted", "presentDate": "", "members": [{"id": "6705551", "name": "Ammarin Thungmas"}, {"id": "6705513", "name": "Chomchon Uansiri"}, {"id": "6705715", "name": "Chonlada Inthisut"}, {"id": "6705508", "name": "Jinnipha Phongsachai"}, {"id": "6705510", "name": "Joompol Phantong"}, {"id": "6705532", "name": "Panitnan Phanitnantho"}, {"id": "6705535", "name": "Pinvasa Doisutep"}, {"id": "6705547", "name": "Samita Chonpartchaya"}, {"id": "6705549", "name": "Supitcha Chaiwongvibul"}, {"id": "6705720", "name": "Thosapitch Srisuk"}], "paper": {"title": "Senolytic therapy alleviates Aβ-associated oligodendrocyte progenitor cell senescence and cognitive deficits in an Alzheimer's disease model", "authors": "Peisu Zhang, Yuki Kishimoto, Ioannis Grammatikakis et al. (corresponding: Peisu Zhang and Mark P. Mattson)", "year": "Nature Neuroscience, 2019", "link": "https://doi.org/10.1038/s41593-019-0372-9", "pdfId": "4383c573cfd8da19aa348444fa1dc926", "pdfName": "s41593-019-0372-9.pdf"}, "feedback": ""}, {"name": "Group 3", "theme": "Genetic and human disease", "status": "waiting", "presentDate": "", "members": [{"id": "6705713", "name": "Chakkraphat Ramon"}, {"id": "6705512", "name": "Chanikarn Prasertwechthon"}, {"id": "6705502", "name": "Krittaya Phanphaeng"}, {"id": "6705658", "name": "Nonthipat Boonkua"}, {"id": "6705660", "name": "Pischaporn Pattarapongplin"}, {"id": "6705534", "name": "Pitcha Predasuwane"}, {"id": "6705546", "name": "Sirakarn Leerattanasiri"}, {"id": "6705522", "name": "Thanin Soottreenart"}, {"id": "6705517", "name": "Thitaree Laloon"}, {"id": "6705543", "name": "Varanyoo Intachom"}], "paper": {"title": "", "authors": "", "year": "", "link": "", "pdfId": "", "pdfName": ""}, "feedback": ""}, {"name": "Group 4", "theme": "Genetic and human disease", "status": "submitted", "presentDate": "", "members": [{"id": "6705714", "name": "Jidapa Jamnongbut"}, {"id": "6705507", "name": "Jinnipha Kliaphuangphit"}, {"id": "6705505", "name": "Khwanpaphatsorn Khamurai"}, {"id": "6605618", "name": "Phumee Dutsadee"}, {"id": "6705659", "name": "Pimchom Chotpornwiset"}, {"id": "6705536", "name": "Pimnatchapa Punyoyai"}, {"id": "6705721", "name": "Punyapat Narong"}, {"id": "6605659", "name": "Rarin Yingyongrattanakul"}, {"id": "6705657", "name": "Thansiri Suriyakrachang"}, {"id": "6705724", "name": "Wasita Sirisawat"}], "paper": {"title": "CRISPR/Cas9-mediated targeted chromosome elimination", "authors": "Erwei Zuo, Xiaona Huo, Xuan Yao et al.", "year": "Genome Biology, 2017", "link": "https://doi.org/10.1186/s13059-017-1354-4", "pdfId": "37269a615c97fe18a3323615e1623bc5", "pdfName": "CRISPR-CAS9_mediated_targeted_chromosome_elimination.pdf"}, "feedback": ""}, {"name": "Group 5", "theme": "Infectious diseases", "status": "waiting", "presentDate": "", "members": [{"id": "6705662", "name": "Monroe Ningmahaengchan"}, {"id": "6705525", "name": "Narueset Saelee"}, {"id": "6705519", "name": "Nutchaya Jupongset"}, {"id": "6705661", "name": "Peakanan Tongjan"}, {"id": "6705537", "name": "Phattharawadi Surit"}, {"id": "6705530", "name": "Punnada Jaroonjetjumnong"}, {"id": "6705521", "name": "Thananya Borirak"}, {"id": "6705518", "name": "Thitichaya Prakobwaitayakit"}, {"id": "6705516", "name": "Yanisa Phunsahaphat"}, {"id": "6705722", "name": "Yaowadi Chaiwiset"}], "paper": {"title": "", "authors": "", "year": "", "link": "", "pdfId": "", "pdfName": ""}, "feedback": ""}, {"name": "Group 6", "theme": "Infectious diseases", "status": "submitted", "presentDate": "", "members": [{"id": "6705514", "name": "Chalida Ratanasuksa"}, {"id": "6705716", "name": "Chanya Karansut"}, {"id": "6705553", "name": "Elena Campillo Chokkuea"}, {"id": "6705712", "name": "Kannapat Lamlert"}, {"id": "6705503", "name": "Krisada Rungsang"}, {"id": "6705717", "name": "Nathachphong Akkarakitchoksakul"}, {"id": "6705531", "name": "Pochara Jan-Id"}, {"id": "6705663", "name": "Sirikorn Wannam"}, {"id": "6705523", "name": "Tanchanok Urinkam"}, {"id": "6705520", "name": "Tinh Laoratanakul"}], "paper": {"title": "Local albumin excess exacerbates Candida albicans-induced inflammasome activation linked with hyperinflammation during vulvovaginal candidiasis", "authors": "Sophie Austermeier, Kar On Cheng, Axel Dietschmann et al. (corresponding: Mark S. Gresnigt)", "year": "Nature Communications, 2026", "link": "https://doi.org/10.1038/s41467-026-78761-w", "pdfId": "ef9c71e7bdd4e2aa37eaf5e033561adc", "pdfName": "s41467-026-78761-w.pdf"}, "feedback": ""}]</script>
+<script>
+(function(){
+"use strict";
+var GROUPS = JSON.parse(document.getElementById("data").textContent);
+var STATUSES=[{key:"waiting",label:"Waiting for paper"},{key:"submitted",label:"Paper submitted"},{key:"revise",label:"Needs a new paper"},{key:"approved",label:"Approved"}];
+var SL={}; STATUSES.forEach(function(s){SL[s.key]=s.label;});
+function esc(x){return String(x==null?"":x).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function sc(k){return "var(--s-"+k+")";}
+function fmt(d){try{return new Date(d+"T00:00").toLocaleDateString(undefined,{day:"numeric",month:"long"});}catch(e){return d;}}
+var counts={}; STATUSES.forEach(function(s){counts[s.key]=0;});
+GROUPS.forEach(function(g){if(counts[g.status]===undefined)g.status="approved";counts[g.status]++;});
+var students=GROUPS.reduce(function(n,g){return n+g.members.length;},0);
+document.getElementById("subline").textContent = GROUPS.length+" groups, "+students+" students";
+document.getElementById("ribbon").innerHTML = STATUSES.map(function(s){return '<span style="flex-grow:'+counts[s.key]+';background:'+sc(s.key)+'"></span>';}).join("");
+document.getElementById("legend").innerHTML = STATUSES.map(function(s){return '<span><i class="dot" style="background:'+sc(s.key)+'"></i><b>'+counts[s.key]+'</b>'+esc(s.label)+'</span>';}).join("");
+document.getElementById("main").innerHTML = GROUPS.map(function(g){
+  var p=g.paper||{};
+  var link = p.link ? ' <a href="'+esc(p.link)+'" target="_blank" rel="noopener">Open the paper</a>' : "";
+  return '<section class="gcard" style="--sc:'+sc(g.status)+'">'
+   + '<h2>'+esc(g.name)+'<span class="st"><i class="dot" style="background:'+sc(g.status)+'"></i>'+esc(SL[g.status]||"")+'</span></h2>'
+   + '<div>'+(g.theme?'<span class="chip" style="--h:'+(g.theme.length*37%360)+'">'+esc(g.theme)+'</span>':"")
+   + (g.presentDate?' <span class="hint">Presents '+esc(fmt(g.presentDate))+'</span>':"")+'</div>'
+   + '<div class="paper">'+(p.title?('<div class="t">'+esc(p.title)+'</div><div class="a">'+esc(p.authors)+(p.year?" · "+esc(p.year):"")+'</div><div class="hint">'+link+'</div>'):'<span class="none">No paper chosen yet.</span>')+'</div>'
+   + (g.feedback && g.feedback.trim() ? '<div class="fb"><h3>💬 Comments from Dr. Waradon</h3>'+esc(g.feedback)+'</div>' : '<div class="fb nofb">No comments yet. Any comments on your paper will appear here.</div>')
+   + '<div class="mem">'+g.members.map(function(m){return '<span>'+esc(m.name)+'<i>'+esc(m.id)+'</i></span>';}).join("")+'</div>'
+   + '</section>';
+}).join("");
+document.getElementById("stamp").textContent = "Last updated 10 November 2026. Ask Dr. Waradon if anything here looks wrong.";
+})();
+</script>
+</body>
+</html>
