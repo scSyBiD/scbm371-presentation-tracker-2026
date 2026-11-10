@@ -206,11 +206,11 @@ document.getElementById("main").innerHTML = GROUPS.map(function(g){
    + '<div>'+(g.theme?'<span class="chip" style="--h:'+(g.theme.length*37%360)+'">'+esc(g.theme)+'</span>':"")
    + (g.presentDate?' <span class="hint">Presents '+esc(fmt(g.presentDate))+'</span>':"")+'</div>'
    + '<div class="paper">'+(p.title?('<div class="t">'+esc(p.title)+'</div><div class="a">'+esc(p.authors)+(p.year?" · "+esc(p.year):"")+'</div><div class="hint">'+link+'</div>'):'<span class="none">No paper chosen yet.</span>')+'</div>'
-   + (g.feedback && g.feedback.trim() ? '<div class="fb"><h3>💬 Comments from Dr. Waradon</h3>'+esc(g.feedback)+'</div>' : '<div class="fb nofb">No comments yet. Any comments on your paper will appear here.</div>')
+   + (g.feedback && g.feedback.trim() ? '<div class="fb"><h3>Comments</h3>'+esc(g.feedback)+'</div>' : '<div class="fb nofb">No comments yet.</div>')
    + '<div class="mem">'+g.members.map(function(m){return '<span>'+esc(m.name)+'<i>'+esc(m.id)+'</i></span>';}).join("")+'</div>'
    + '</section>';
 }).join("");
-document.getElementById("stamp").textContent = "Last updated 10 November 2026. Ask Dr. Waradon if anything here looks wrong.";
+document.getElementById("stamp").textContent = "Last updated 10 November 2026.";
 })();
 </script>
 </body>
